@@ -1,5 +1,7 @@
 import Mathlib.Data.Finset.Defs
 import Mathlib.Data.Finset.Card
+import Mathlib.Data.Real.Basic
+import Init.Data.Vector.Basic
 import Init.Data.Function
 
 -- set_option diagnostics true
@@ -87,18 +89,23 @@ example (planes minutes : Finset ℕ) (h : planes.card = 1500) (h' : minutes.car
 /-
 2.
 Find all triples of positive integers a < b < c for which 1/a + 1/b + 1/c = 1 holds.
-
-bc + ac + ab = abc
-bc + a(b+c) = abc
-a(b+c) = abc - bc
-a(b+c) = bc(a-1)
+1/1 + .. > 1 -> nothing with a = 1
+1/2 + 1/3 + 1/6 = 1 -> increasing c makes it impossible
+1/2 + 1/4 + 1/5 < 1 -> increasing b makes it impossible
+1/3 + 1/4 + 1/5 < 0.8 -> increasing a makes it impossible
+a single solution then.
 -/
 
-
-
-
-
-
-
-
-
+/-
+4.
+We have distributed two hundred balls into one hundred boxes with
+the restrictions that no box got more than one hundred balls, and each
+box got at least one. Prove that it is possible to find some boxes that
+together contain exactly one hundred balls.
+-/
+example
+  (balls boxes : Finset ℕ) (len_balls : balls.card = 200) (len_boxes : boxes.card = 100) (box_for_ball : ℕ → ℕ)
+  (map : ∀ b ∈ balls, box_for_ball b ∈ boxes)
+  (h_lower : ∀ x ∈ boxes, ∃ y ∈ balls, box_for_ball y = x)
+  (h_upper : ∀ x ∈ boxes, (balls.filter fun b ↦ box_for_ball b = x).card ≤ 100) :
+  ∃ els ⊆ boxes, (balls.filter fun b ↦ box_for_ball b ∈ els).card = 100 := by sorry
