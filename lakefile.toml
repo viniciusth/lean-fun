@@ -1,7 +1,7 @@
 name = "lean-fun"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["LeanFun"]
+defaultTargets = ["LeanFun", "Analysis"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -12,7 +12,12 @@ maxSynthPendingDepth = 3
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.26.0-rc2"
+rev = "v4.29.0-rc8"
 
 [[lean_lib]]
 name = "LeanFun"
+
+[[lean_lib]]
+name = "Analysis"
+leanOptions = { doc.verso = true, weak.linter.mathlibStandardSet = false }
+moreLeanArgs = ["-Dwarn.sorry=false"]
