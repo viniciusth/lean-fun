@@ -11,7 +11,7 @@ An introduction to mathematical statements.  Showcases some basic tactics and Le
 /- Example A.1.1. What the textbook calls "statements" are objects of type `Prop` in Lean.  Also,
    in Lean we tend to assign "junk" values to expressions that might normally be considered
    undefined, so discussions regarding undefined terms in the textbook should be adjusted
-   accordingly. -/   
+   accordingly. -/
 #check 2+2=4
 #check 2+2=5
 
@@ -194,16 +194,23 @@ example {X Y Z:Prop} (h: [X,Y,Z].TFAE) : X ↔ Y := by
   exact h.out 0 1
 
 /-- Exercise A.1.1.  Fill in the first {syntax term}`sorry` with something reasonable. -/
-example {X Y:Prop} : ¬ ((X ∨ Y) ∧ ¬ (X ∧ Y)) ↔ sorry := by sorry
+-- not ((x or y) and not (x and y)) = not ((x or y) and (not x or not y))
+-- = (not x and not y) or (x and y)
+example {X Y:Prop} : ¬ ((X ∨ Y) ∧ ¬ (X ∧ Y)) ↔ (¬ X ∧ ¬ Y) ∨ (X ∧ Y):= by simp; tauto
 
 /-- Exercise A.1.2.  Fill in the first {syntax term}`sorry` with something reasonable. -/
-example {X Y:Prop} : ¬ (X ↔ Y) ↔ sorry := by sorry
+example {X Y:Prop} : ¬ (X ↔ Y) ↔ ¬ ((X → Y) ∧ (Y → X)) := by simp; tauto
 
 /-- Exercise A.1.3. -/
 def Exercise_A_1_3 : Decidable (∀ (X Y: Prop), (X → Y) → (¬X → ¬ Y) → (X ↔ Y)) := by
   --the first line of this construction should be either `apply isTrue` or `apply isFalse`,
-  --depending on whether you believe the given statement to be true or false. 
-  sorry
+  --depending on whether you believe the given statement to be true or false.
+  apply isFalse
+  push_neg
+  use true
+  use false
+  simp
+
 
 /-- Exercise A.1.4. -/
 def Exercise_A_1_4 : Decidable (∀ (X Y: Prop), (X → Y) → (¬Y → ¬ X) → (X ↔ Y)) := by
